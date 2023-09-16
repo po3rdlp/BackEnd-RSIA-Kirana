@@ -4,8 +4,8 @@ import router from "./src/News/NewsController.js";
 import cors from "cors";
 
 const app = express();
-const port = 5000;
-const host = "0.0.0.0";
+const port = 5303;
+const host = "13.250.21.137";
 
 app.use(cors());
 ConnectDb();

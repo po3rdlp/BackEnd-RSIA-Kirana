@@ -1,7 +1,7 @@
-FROM node:18
+FROM node:18.7.1
 
 # Create app directory
-WORKDIR /app
+WORKDIR /
 
 COPY package*.json ./
 
