@@ -5,7 +5,7 @@ import cors from "cors";
 
 const app = express();
 const port = 5303;
-const host = "13.250.21.137";
+const host = "13.228.77.82";
 
 app.use(cors());
 ConnectDb();
