@@ -1,7 +1,7 @@
 FROM node:18.7.1
 
 # Create app directory
-WORKDIR /
+WORKDIR /BackEnd-RSIA-Kirana
 
 COPY package*.json ./
 
