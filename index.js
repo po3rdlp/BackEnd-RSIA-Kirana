@@ -12,7 +12,7 @@ const httpsPort = 5303;
 const host = "0.0.0.0";
 
 const keyPath = "./private-key.pem";
-const certPath = "./certificate.pem"; // Adjust the paths accordingly
+const certPath = "./certificate.pem";
 
 app.use(cors());
 ConnectDb();
