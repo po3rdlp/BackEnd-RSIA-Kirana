@@ -4,6 +4,7 @@ import {
   deleteNewsById,
   getNews,
   getNewsById,
+  verifyTokenMiddleware,
 } from "./NewsService.js";
 import multer from "multer";
 
@@ -40,35 +41,44 @@ router.get("/dev/v1/news/:id", async (req, res) => {
 });
 
 //postNews
-router.post("/dev/v1/addNews", upload.single("image"), async (req, res) => {
-  try {
-    const { title, desc } = req.body;
-    const imageBuffer = req.file.buffer;
-    //convert into blob
-    const image = Buffer.from(imageBuffer).toString("base64");
+router.post(
+  "/dev/v1/addNews",
+  verifyTokenMiddleware,
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      const { title, desc } = req.body;
+      const imageBuffer = req.file.buffer;
+      //convert into blob
+      const image = Buffer.from(imageBuffer).toString("base64");
 
-    const newNews = await createNews(title, desc, image);
-    res
-      .status(201)
-      .json({ message: "SUKSES MENAMBAHKAN BERITA", news: newNews });
-  } catch (error) {
-    res.status(500).json({ error: "Gagal Membuat Berita" });
+      const newNews = await createNews(title, desc, image);
+      res
+        .status(201)
+        .json({ message: "SUKSES MENAMBAHKAN BERITA", news: newNews });
+    } catch (error) {
+      res.status(500).json({ error: "Gagal Membuat Berita" });
+    }
   }
-});
+);
 
 //deleteNews
-router.delete("/dev/v1/deleteNews/:id", async (req, res) => {
-  try {
-    const newsId = req.params.id;
-    const deleteNews = await deleteNewsById(newsId);
-    if (!deleteNews) {
-      res.status(404).json({ error: "Error" });
+router.delete(
+  "/dev/v1/deleteNews/:id",
+  verifyTokenMiddleware,
+  async (req, res) => {
+    try {
+      const newsId = req.params.id;
+      const deleteNews = await deleteNewsById(newsId);
+      if (!deleteNews) {
+        res.status(404).json({ error: "Error" });
+      }
+      res.json({ message: `Berita dengan Id ${newsId} berhasil dihapus.` });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Gagal menghapus Data" });
     }
-    res.json({ message: `Berita dengan Id ${newsId} berhasil dihapus.` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Gagal menghapus Data" });
   }
-});
+);
 
 export default router;

@@ -1,4 +1,11 @@
 import News from "./NewsModel.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import { verifyToken } from "../User/UserService.js";
+
+dotenv.config();
+
+const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 //Create News Service
 export const createNews = async (title, desc, image) => {
@@ -47,5 +54,20 @@ export const deleteNewsById = async (newsId) => {
     return deleteNews;
   } catch (error) {
     throw new Error("failed to delete News, contact support :)");
+  }
+};
+
+export const verifyTokenMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ error: "Token is missing" });
+  }
+  const decodedToken = verifyToken(token);
+
+  if (decodedToken) {
+    next();
+  } else {
+    return res.status(401).json({ error: "Invalid token" });
   }
 };
