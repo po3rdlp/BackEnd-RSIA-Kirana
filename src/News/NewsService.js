@@ -8,7 +8,7 @@ dotenv.config();
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 //Create News Service
-export const createNews = async (title, desc, image) => {
+export const createNews = async (title, desc, image, imagePlus) => {
   try {
     const newNews = new News({
       title: title,
@@ -18,8 +18,9 @@ export const createNews = async (title, desc, image) => {
 
     await newNews.save();
     return newNews;
-  } catch {
+  } catch (error) {
     res.status(500).json({ error: "Failed Creating News" });
+    throw error;
   }
 };
 

@@ -8,7 +8,7 @@ const newsModel = new mongoose.Schema({
     default: Date.now,
   },
   desc: String,
-  image: String, // Add this field to store the image path
+  image: String,
 });
 
 const News = mongoose.model("News", newsModel);

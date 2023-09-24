@@ -1,7 +1,6 @@
 import express from "express";
 import ConnectDb from "./src/config/Dbconnect.js";
-import router from "./src/News/NewsController.js";
-import userRouter from "./src/User/UserController.js";
+import router from "./src/Controller/Controller.js";
 import cors from "cors";
 import fs from "fs";
 import http from "http";
@@ -19,7 +18,7 @@ app.use(cors());
 ConnectDb();
 
 app.use("/", router);
-app.use("/user", userRouter);
+// app.use("/", userRouter);
 
 // const options = {
 //   key: fs.readFileSync(keyPath, "utf-8"),
